@@ -1,0 +1,233 @@
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brain Enigmas</title>
+    <link rel="stylesheet" href="Johnny.css">
+    <style>
+        .review-container {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background-color: #f9f9f9;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            width: 250px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .review-container p {
+            margin: 10px 0 5px;
+        }
+
+        .review-container input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .review-container input[type="text"] {
+            width: 100%;
+            padding: 5px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .review-container button {
+            margin-top: 10px;
+            padding: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .review-container button:hover {
+            background-color: #45a049;
+        }
+
+        .reviews-list {
+            margin-top: 20px;
+        }
+
+        .reviews-list .review-item {
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+            justify-content: flex-start;
+        }
+
+        #image {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .sticky-button {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1><b>Welcome to Brain Enigmas</b></h1>
+<br>
+<h3> (Read the Riddles then solve them, if you have a short attention span press the ADHD button and afterwards write us a review)
+
+<br>
+<br>
+
+    <img src="idea-lightbulb.gif" alt="Brain with lightbulb dancing" style="width: 10%; height: 20%%;">
+
+    <br>
+<div style="text-align: left;">
+    <button type="button" onclick="alert('The horse\'s name was Friday!')">
+        A cowboy rides into town on Friday, stays in town for 3 days, then leaves on Friday. How did he do it?
+    </button>
+    <br><br>
+
+    <button type="button" onclick="alert('The last kid\'s name was Bob!')">
+        Bob's mom had 4 children: North, South, East. What is the name of the last child?
+    </button>
+    <br><br>
+
+    <button type="button" onclick="alert('Because they are always spotted!')">
+        Why are leopards bad at hide and seek?
+    </button>
+    <br><br>
+
+    <button type="button" onclick="alert('They were all married!')">
+        There's a boat filled with people and it hasn't sunk but when you look again there's not a single person on board. How's that possible?
+    </button>
+
+<br> <br>
+
+ <button type="button" onclick="alert('Roosters don't lay eggs')">
+        A rooster lays an egg on the roof of a barn. Which way does the egg roll?
+    </button>
+<br> <br>
+
+ <button type="button" onclick="alert('A hole')">
+        The more you take from me, the bigger I get. What am I?
+    </button>
+<br> <br>
+
+
+ <button type="button" onclick="alert('The man had hiccups. The bartender scared him, and the hiccups stopped.')">
+        A man walks into a bar and asks the bartender for a glass of water. The bartender pulls out a gun and points it at the man. The man says "Thank you" and leaves. What happened?
+    </button>
+<br> <br>
+
+<button type="button" onclick="alert('The word ton')">
+        Forward, I am heavy, but backward, I am not.
+    </button>
+    <br><br>
+
+<button type="button" onclick="alert('They were a grandfather, father, and son.')">
+        Two fathers and two sons sat down to eat eggs for breakfast. They ate exactly three eggs, each person had an egg. How is this possible?
+    </button>
+    <br><br>
+
+
+<button type="button" onclick="alert('Footsteps')">
+        The more you take the more you leave behind. What am I?
+    </button>
+    <br><br>
+
+    <div class="review-container">
+        <p>Rate this product:</p>
+        <form id="reviewForm">
+            <input type="radio" name="option" value="1 Star"> 1 Star
+            <input type="radio" name="option" value="2 Stars"> 2 Stars
+            <input type="radio" name="option" value="3 Stars"> 3 Stars
+            <input type="radio" name="option" value="4 Stars"> 4 Stars
+            <input type="radio" name="option" value="5 Stars"> 5 Stars
+            <br><br>
+            <p>Leave a review:</p>
+            <input type="text" id="reviewText" placeholder="Write your review here" required>
+            <br>
+            <button type="submit">Submit Review</button>
+        </form>
+
+        <div class="reviews-list" id="reviewsList">
+            <h4>Other Reviews:</h4>
+        </div>
+    </div>
+
+    <img id="image" src="Sand.gif" alt="Mashing sand together">
+
+    <button class="sticky-button" onclick="showImage()">ADHD button</button>
+
+    <script>
+        // Function to load reviews from localStorage
+        function loadReviews() {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            const reviewsList = document.getElementById('reviewsList');
+            reviewsList.innerHTML = '<h4>Other Reviews:</h4>'; // Reset the list
+
+            reviews.forEach(review => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+                reviewItem.innerHTML = `<strong>${review.rating}</strong><br>${review.text}`;
+                reviewsList.appendChild(reviewItem);
+            });
+        }
+
+        // Function to save reviews to localStorage
+        function saveReview(rating, reviewText) {
+            const reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+            reviews.push({ rating, text: reviewText });
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+        }
+
+        // Handle form submission
+        document.getElementById('reviewForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Get the selected rating and review text
+            const rating = document.querySelector('input[name="option"]:checked');
+            const reviewText = document.getElementById('reviewText').value;
+
+            if (rating && reviewText) {
+                // Save the review
+                saveReview(rating.value, reviewText);
+
+                // Load the reviews to reflect the new submission
+                loadReviews();
+
+                // Clear the form
+                document.getElementById('reviewForm').reset();
+            } else {
+                alert('Please provide both a rating and a review.');
+            }
+        });
+
+        // Load reviews on page load
+        window.addEventListener('load', loadReviews);
+
+        // Function to show the hidden image
+        function showImage() {
+            document.getElementById('image').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
